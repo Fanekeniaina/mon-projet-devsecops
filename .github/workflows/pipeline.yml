@@ -1,3 +1,20 @@
+name: DevSecOps Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build-and-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Build Docker Image
+      run: docker build -t mon-app:latest .
+
     - name: Run Trivy vulnerability scanner
       uses: aquasecurity/trivy-action@master
       with:
@@ -7,4 +24,3 @@
         ignore-unfixed: true
         vuln-type: 'os,library'
         severity: 'CRITICAL,HIGH'
-        skip-dirs: '**/setuptools/_vendor'   # <-- AJOUTEZ CETTE LIGNE
