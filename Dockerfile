@@ -6,11 +6,10 @@ WORKDIR /app
 
 COPY requirements.txt .
 
-# Installer les dépendances normalement
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
-# 🧹 SUPPRIMER les copies vulnérables embarquées dans setuptools
+# 🧹 LA LIGNE MAGIQUE QUI A FAIT MARCHER LE RUN #4 :
 RUN rm -rf /usr/local/lib/python3.11/site-packages/setuptools/_vendor/wheel* \
            /usr/local/lib/python3.11/site-packages/setuptools/_vendor/jaraco.context*
 
