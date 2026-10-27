@@ -6,10 +6,12 @@ WORKDIR /app
 
 COPY requirements.txt .
 
+# Mettre à jour pip, installer les dépendances, PUIS supprimer le faux SBOM
 RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt
+    pip install --no-cache-dir -r requirements.txt && \
+    rm -f /usr/local/lib/python3.11/site-packages/pip/_vendor/bom.cdx.json
 
-# 🧹 LA LIGNE MAGIQUE QUI A FAIT MARCHER LE RUN #4 :
+# (Optionnel) On garde la suppression des copies internes de setuptools
 RUN rm -rf /usr/local/lib/python3.11/site-packages/setuptools/_vendor/wheel* \
            /usr/local/lib/python3.11/site-packages/setuptools/_vendor/jaraco.context*
 
